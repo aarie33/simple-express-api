@@ -1,0 +1,25 @@
+{
+  "type": "module",
+  "name": "bookshelf-api",
+  "version": "1.0.0",
+  "description": "Bookshelf API Test",
+  "main": "src/server.mjs",
+  "scripts": {
+    "start": "node src/server.mjs",
+    "start-dev": "nodemon src/server.mjs",
+    "test-api": "newman run Bookshelf-API-Test.postman_collection.json --environment Bookshelf-API-Test.postman_environment.json"
+  },
+  "keywords": [],
+  "author": "aarie33",
+  "license": "ISC",
+  "dependencies": {
+    "express": "^4.19.2",
+    "nanoid": "^5.0.7"
+  },
+  "devDependencies": {
+    "eslint": "^8.57.0",
+    "eslint-config-airbnb-base": "^15.0.0",
+    "eslint-plugin-import": "^2.29.1",
+    "nodemon": "^2.0.7"
+  }
+}
