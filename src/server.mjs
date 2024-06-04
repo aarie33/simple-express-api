@@ -1,24 +1,47 @@
-import express from 'express';
-import {
-  addBook,
-  getAllBooks,
-  getBookById,
-  updateBook,
-  deleteBook,
-// eslint-disable-next-line import/extensions
-} from './books.mjs';
+import Hapi from '@hapi/hapi';
+import { addBook, getAllBooks, getBookById, updateBook, deleteBook } from './books.mjs';
 
-const app = express();
-app.use(express.json());
+const init = async () => {
+  const server = Hapi.server({
+    port: 9000,
+    host: 'localhost'
+  });
 
-const port = 9000;
+  server.route([
+    {
+      method: 'POST',
+      path: '/books',
+      handler: addBook
+    },
+    {
+      method: 'GET',
+      path: '/books',
+      handler: getAllBooks
+    },
+    {
+      method: 'GET',
+      path: '/books/{bookId}',
+      handler: getBookById
+    },
+    {
+      method: 'PUT',
+      path: '/books/{bookId}',
+      handler: updateBook
+    },
+    {
+      method: 'DELETE',
+      path: '/books/{bookId}',
+      handler: deleteBook
+    }
+  ]);
 
-app.post('/books', addBook);
-app.get('/books', getAllBooks);
-app.get('/books/:bookId', getBookById);
-app.put('/books/:bookId', updateBook);
-app.delete('/books/:bookId', deleteBook);
+  await server.start();
+  console.log(`Server berjalan pada ${server.info.uri}`);
+};
 
-app.listen(port, () => {
-  console.log(`Server berjalan pada http://localhost:${port}`);
+process.on('unhandledRejection', (err) => {
+  console.log(err);
+  process.exit(1);
 });
+
+init();
